@@ -2,7 +2,6 @@ import psutil
 import datetime
 import socket
 import uuid
-import pandas as pd
 import csv
 import json
 
@@ -88,7 +87,6 @@ while True:
 
     for proc in psutil.process_iter(['pid', 'name']):
         sp = proc.info
-        # id = uuid.uuid4().hex  # setID
         pid = sp['pid']
         p = psutil.Process(pid)
         global dict_data
@@ -106,10 +104,6 @@ while True:
     conn.send(bytes('Ok', encoding='utf-8'))  # в ответ клиенту отправляем сообщение в верхнем регистре
 #conn.close()  # закрываем соединение
 #
-# read_file = pd.read_csv('realytrac.csv')
-# read_file.to_excel('monitoring.xlsx', index=None, header=True)
-# Press the green button in the gutter to run the script.
-# if __name__ == '__main__':
-#     print_hi('PyCharm')
+
 
 
