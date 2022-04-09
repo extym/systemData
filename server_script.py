@@ -9,7 +9,7 @@ ip_Adrr = 0
 ip_Port = 0
 
 def getid():
-    id = uuid.uuid4().hex  # setID
+    id = uuid.uuid4().__hash__()  # setID
     return id
 
 def char_replace(string):
@@ -102,7 +102,7 @@ while True:
         write_csv(dict_data)
         #print(dict_data)
     conn.send(bytes('Ok', encoding='utf-8'))  # в ответ клиенту отправляем сообщение в верхнем регистре
-    break
+    #break
 #conn.close()  # закрываем соединение
 #
 
