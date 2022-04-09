@@ -92,16 +92,17 @@ while True:
         global dict_data
         dict_data = p.as_dict(attrs=['pid', 'name', 'connections', 'create_time', 'ppid'])
         dict_data['ID'] = getid()
-        create_time = dict_data['create_time']
-        time = timeFor(dict_data['create_time'])
-        dict_data['create_time'] = time
+        # create_time = dict_data['create_time']
+        # time = timeFor(dict_data['create_time'])
+        # dict_data['create_time'] = time
         connect = dict_data['connections'] #??
         dict_data['ip_address'] = get_ip(connect)
         dict_data['port'] = get_port(connect)
         dict_data.pop('connections')
         write_csv(dict_data)
-        print(dict_data)
+        #print(dict_data)
     conn.send(bytes('Ok', encoding='utf-8'))  # в ответ клиенту отправляем сообщение в верхнем регистре
+    break
 #conn.close()  # закрываем соединение
 #
 
