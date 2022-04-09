@@ -9,7 +9,8 @@ ip_Adrr = 0
 ip_Port = 0
 
 def getid():
-    id = uuid.uuid4().__hash__()  # setID
+    #id = uuid.uuid4().__hash__()  # setID
+    id = hash(str(dict_data))
     return id
 
 def char_replace(string):
@@ -19,10 +20,10 @@ def char_replace(string):
         return string
 
 def write_csv(data):
-  with open('realytrac.csv', 'a') as f:
+  with open('monitor.csv', 'a') as f:
     writer = csv.writer(f, delimiter=';')
-    writer.writerow((data['pid'],
-                    data['name'],
+    writer.writerow((data['name'],
+                    data['pid'],
                     data['ip_address'],
                     data['port'],
                     data['ppid'],
@@ -101,6 +102,12 @@ while True:
         dict_data.pop('connections')
         write_csv(dict_data)
         #print(dict_data)
+        with open('./monitor.csv', newline='') as csvfile:
+            spamreader = list(csv.reader(csvfile, delimiter=';'))
+            for row in spamreader:
+                name = str(row[0])
+                newobj = {name: spamreader[1:6]}
+                print(type(newobj), newobj)
     conn.send(bytes('Ok', encoding='utf-8'))  # в ответ клиенту отправляем сообщение в верхнем регистре
     #break
 #conn.close()  # закрываем соединение
