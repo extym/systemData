@@ -15,9 +15,3 @@
 #
 # d = dict_data
 # print(type(d))
-#
-# with open('../monitor.csv', newline='') as csvfile:
-#     spamreader = csv.reader(csvfile, delimiter=';')
-#     for row in spamreader:
-#         newobj = dict(spamreader[0], spamreader[1:6])
-#         print(type(newobj), newobj)

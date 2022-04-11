@@ -6,12 +6,13 @@ def monitor(time):
     sock.send(bytes('Hello', encoding = 'UTF-8'))  # отправляем сообщение
     data = sock.recv(1024)  # читаем ответ от серверного сокета
     print(data)
-
-    sock.close()
+    if data == 'Ok':
+        time.sleep(30)
+        sock.close()
 
 def main():
   while True:
-      monitor(20)  # Выполнять каждые 5 секунд
+      monitor(5)  # Выполнять каждые 5 секунд
 
 
 # Press the green button in the gutter to run the script.

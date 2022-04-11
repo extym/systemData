@@ -3,6 +3,7 @@ import datetime
 import socket
 import uuid
 import csv
+import pandas as pd
 import json
 
 ip_Adrr = 0
@@ -86,8 +87,9 @@ while True:
     data = conn.recv(1024)  # принимаем данные от клиента, по 1024 байт
     print(str(data))
 
-    for proc in psutil.process_iter(['pid', 'name']):
+    for proc in psutil.process_iter(['pid', 'name', 'connections', 'create_time', 'ppid']):
         sp = proc.info
+        print(type(sp), sp)
         pid = sp['pid']
         p = psutil.Process(pid)
         global dict_data
@@ -100,14 +102,19 @@ while True:
         dict_data['ip_address'] = get_ip(connect)
         dict_data['port'] = get_port(connect)
         dict_data.pop('connections')
+
         write_csv(dict_data)
         #print(dict_data)
         with open('./monitor.csv', newline='') as csvfile:
-            spamreader = list(csv.reader(csvfile, delimiter=';'))
+            spamreader = csv.reader(csvfile, delimiter=';')
             for row in spamreader:
-                name = str(row[0])
-                newobj = {name: spamreader[1:6]}
-                print(type(newobj), newobj)
+                name = str(row.pop(0))
+                newobj = {name: row}
+                nameforcheck = {name: hash(str(row))}
+                df = pd.DataFrame.from_dict(nameforcheck, 'index').reset_index()
+                df.columns = ['name', 'HashProcData']
+                df.to_excel('previousData.xlsx', index=False)
+                #print(type(newobj), newobj)
     conn.send(bytes('Ok', encoding='utf-8'))  # в ответ клиенту отправляем сообщение в верхнем регистре
     #break
 #conn.close()  # закрываем соединение
